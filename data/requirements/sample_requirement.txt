@@ -1,0 +1,6 @@
+IT MAINTENANCE REQUIREMENT — REQ-2025-018
+- Application: Order Management System
+- Required SLA: Sev-1 response <= 15 min, resolution <= 4 hours.
+- Required security: AES-256 at rest, TLS 1.2+ in transit, 24-hour breach notification.
+- Required audit cadence: annual with 30 days' notice.
+- Subprocessor approval required.

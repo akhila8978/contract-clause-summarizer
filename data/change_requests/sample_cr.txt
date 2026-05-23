@@ -1,0 +1,4 @@
+CHANGE REQUEST — CR-2025-044
+Title: Increase API throughput SLO during peak hours.
+Impact on contract: SLA section needs updated peak-hour response target (5 min) and capacity provisioning clause.
+Owner: BlueOps. Effective: next renewal.

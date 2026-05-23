@@ -1,0 +1,19 @@
+RENEWAL AMENDMENT — Acme Corp / BlueOps Pvt Ltd — Effective 1 January 2026.
+
+1. TERM. Renewed for 24 months, auto-renewing for 24-month periods (changed from 12). Non-renewal notice now 90 days (changed from 30).
+
+2. PAYMENT. INR 5,40,000 per quarter (12.5% increase). Net 30 (changed from 45).
+
+3. SLA. Sev-1 response 15 minutes, resolution 4 hours. Service credits added: 10% for Sev-1 breach, 5% for Sev-2.
+
+4. SECURITY INCIDENT NOTIFICATION. Updated to within 24 hours of detection.
+
+5. AUDIT. Customer may audit annually with 30 days' notice.
+
+6. SUBPROCESSORS. Vendor must obtain written approval before engaging any new subprocessor.
+
+7. DATA RETENTION. On termination Vendor shall destroy Customer data within 30 days and provide written certification.
+
+8. LIABILITY. Cap increased to fees paid in the prior 12 months.
+
+All other terms of the MSA dated 1 January 2024 remain in force.

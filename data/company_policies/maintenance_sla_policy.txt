@@ -1,0 +1,15 @@
+ACME CORP — IT APPLICATION MAINTENANCE SLA POLICY (v1.4)
+
+A. Severity Definitions
+  Sev-1 (Critical): production down. Response < 15 min, Resolution < 4 hours.
+  Sev-2 (High): major functionality impaired. Response < 1 hour, Resolution < 8 business hours.
+  Sev-3 (Medium): minor issue with workaround. Resolution < 5 business days.
+  Sev-4 (Low): cosmetic. Best effort.
+
+B. Service Credits. Failure to meet a Sev-1 resolution SLA in a calendar month entitles Acme to a 10% service credit; Sev-2 = 5%.
+
+C. Reporting. Vendor shall provide monthly SLA reports with incident details and root-cause analyses for Sev-1/Sev-2.
+
+D. Termination for Cause. Three consecutive months of Sev-1 SLA breach permits termination for cause with no termination fee.
+
+E. Renewal Notice. The party seeking non-renewal must provide 60 days' written notice prior to current term end.

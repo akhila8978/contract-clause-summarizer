@@ -1,0 +1,13 @@
+ACME CORP — INFORMATION SECURITY POLICY (v3.2)
+
+1. Data Protection. All customer data must be encrypted at rest using AES-256 and in transit using TLS 1.2 or higher. Vendors handling Acme data must comply with ISO 27001 and SOC 2 Type II.
+
+2. Breach Notification. Any vendor must notify Acme of a confirmed security incident within 24 hours of detection, in writing, including scope and affected systems.
+
+3. Audit Rights. Acme reserves the right to conduct, with 30 days' notice, an annual security audit of vendor environments handling Acme data.
+
+4. Subprocessors. Vendors must obtain written approval before engaging any subprocessor that will process Acme data.
+
+5. Data Retention & Deletion. On termination, all Acme data must be returned or securely destroyed within 30 days, with written certification.
+
+6. Personnel. Vendor personnel with access to Acme systems must complete annual security training and pass background checks.

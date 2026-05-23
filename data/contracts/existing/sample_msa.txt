@@ -1,0 +1,26 @@
+MASTER SERVICES AGREEMENT — Acme Corp ("Customer") and BlueOps Pvt Ltd ("Vendor")
+Effective Date: 1 January 2024.
+
+1. PARTIES. Customer: Acme Corp, Bangalore. Vendor: BlueOps Pvt Ltd, Hyderabad.
+
+2. TERM. Initial term 24 months from Effective Date, auto-renewing for 12-month periods unless either party gives 30 days' written notice prior to renewal.
+
+3. PAYMENT. Customer shall pay Vendor INR 4,80,000 per quarter, within 45 days of invoice. Late payments accrue interest at 1.5% per month.
+
+4. SLA. Vendor commits to Sev-1 response within 30 minutes and resolution within 8 hours. Service credits not applicable.
+
+5. CONFIDENTIALITY. Each party shall protect the other's confidential information for 2 years following termination.
+
+6. DATA PROTECTION. Vendor will use industry-standard encryption.
+
+7. SECURITY INCIDENT NOTIFICATION. Vendor shall notify Customer of confirmed security incidents within 72 hours.
+
+8. AUDIT. Customer may audit Vendor with 90 days' prior notice, not more than once every 24 months.
+
+9. SUBPROCESSORS. Vendor may engage subprocessors at its discretion.
+
+10. LIABILITY. Vendor's aggregate liability is capped at fees paid in the prior 6 months.
+
+11. TERMINATION. Either party may terminate for material breach with 30 days' cure period.
+
+12. GOVERNING LAW. Laws of Karnataka, India.
