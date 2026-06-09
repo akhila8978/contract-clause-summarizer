@@ -1,138 +1,103 @@
-# ContractSense — Contract Intelligence Platform v3.0
-## IT Outsourcing & Application Maintenance Contract Analyzer
+# 📄 ContractSense — AI Contract Intelligence Platform
 
-### Solution Overview
+![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=flat-square&logo=fastapi&logoColor=white)
+![Next.js](https://img.shields.io/badge/Next.js-000000?style=flat-square&logo=nextdotjs&logoColor=white)
+![AI/NLP](https://img.shields.io/badge/AI%2FNLP-FF6F00?style=flat-square&logo=googlegemini&logoColor=white)
+![ChromaDB](https://img.shields.io/badge/ChromaDB-Vector_Search-8A2BE2?style=flat-square)
+![Status](https://img.shields.io/badge/Version-3.0.1-blue?style=flat-square)
 
-A web-based AI platform that parses IT maintenance contracts, generates structured summaries, highlights critical clauses and dates, and enables intelligent Q&A — all tailored for IT maintenance teams managing vendor contracts.
-
----
-
-### Bug Fix — v3.0.1 (this release)
-
-**Issue:** `Unhandled Runtime Error — Objects are not valid as a React child (found: object with keys {vendor, client, term, renewal_mechanics, tcv})`
-
-**Root cause:** When the LLM call fails or returns non-JSON output, the backend's heuristic fallback (`executive_summary_agent.py → _heuristic_summary`) returns `contract_snapshot`, `sla_commitments`, and `exit_readiness` as **plain dictionaries**, and `recommended_actions` as an **array of objects** (`{action, owner, priority, citation}`). The frontend's `EditableBlock` component expected these to be plain strings, so React threw when it tried to render the raw objects as children.
-
-**Fix applied (`frontend/src/app/contracts/[id]/page.tsx`):**
-- Added `formatEsValue(val: unknown): string` — converts any value (string, object, array) to a human-readable string before it is passed to `EditableBlock`.
-- Added `formatRecommendedAction(a: unknown): string` — handles both plain-string and structured-object recommended-action items.
-- All six `EditableBlock` usages for `contract_snapshot`, `sla_commitments`, and `exit_readiness` (summary view + split view) now wrap their `value` prop with `formatEsValue(...)`.
-- Both `recommended_actions` map callbacks now type-annotate items as `unknown` and call `formatRecommendedAction(a)` instead of rendering `a` directly.
-
-**No backend changes required.** The fix is fully forward-compatible: if the LLM does return a proper string, `formatEsValue` passes it through unchanged.
+> A full-stack AI platform that parses IT outsourcing & maintenance contracts, generates structured summaries, highlights critical clauses and dates, and enables intelligent Q&A — purpose-built for IT teams managing vendor contracts.
 
 ---
 
-### Key Features (v3.0)
+## 🌟 Key Features
 
-#### 1. Side-by-Side Document & Summary View
-- **Split view mode**: Summary panel on the left, source document on the right
-- **Synchronized navigation**: Click any clause or date in the summary to jump to the corresponding page in the document
-- **Three view modes**: Summary only, Side-by-Side split, or Document only
-- **Page selector dropdown** in split view for quick navigation
+### 🤖 AI-Powered Analysis
+- **17-clause extraction** with risk ratings — Critical / High / Medium / Low
+- **14 metadata fields** — Vendor, Client, TCV, SLA, Cyber Insurance, Auto-Renewal, Cloud Providers
+- **Executive summary** — Board-level contract snapshot, SLA commitments, exit readiness, recommended actions
+- **Missing clause detection** — Force Majeure, DR/BCP, Audit Rights, IP Ownership, and more
+- **AI clause recommendations** — Per-clause improvement suggestions with one-click apply
+- **Policy conflict detection** — Cross-contract conflict identification with governing clause resolution
 
-#### 2. Editable Summary Fields
-- **Inline editing**: Hover any metadata field to reveal an edit button
-- **Executive summary editing**: All generated text fields (Contract Snapshot, SLA Commitments, Exit Readiness, Recommended Actions) are fully editable
-- **Save changes**: Click Save to persist edits via PATCH `/api/contracts/{id}`
-- **Tracked edits**: Edited fields are marked with type `"Edited"` for auditability
+### 📊 Smart Document Management
+- Side-by-side document + summary split view with synchronized navigation
+- Editable summary fields with tracked change auditability
+- Risk heatmap with severity-ranked flags and remediation guidance
+- Compliance task auto-generation with owner, due date, and recurrence
 
-#### 3. Export Options
-- **PDF export**: Rich multi-section report with metadata table, SLA summary, risk heatmap, scope, obligations, and compliance tasks
-- **CSV export**: All structured fields in spreadsheet format
-- **JSON export**: Complete structured contract data for system integrations
-- **Copy to clipboard**: One-click summary copy for pasting into emails/tickets
+### 💬 Intelligent Q&A
+- **RAG-powered legal chatbot** grounded in your uploaded contracts
+- **Semantic vector search** across all contracts via ChromaDB
+- **Renewal diff** — Compare old vs. new contract versions side by side
 
-#### 4. AI Analysis Features
-- **Clause extraction**: 17 contract sections with risk rating (critical/high/medium/low)
-- **14 metadata fields**: Vendor, Client, TCV, Currency, Governing Law, Cyber Insurance, Auto-Renewal, Named Applications, Cloud Providers, etc.
-- **SLA analysis**: Uptime SLA, P1/P2/P3 response & resolution, service credits, penalty cap, exclusions
-- **Maintenance scope**: In-Scope vs Out-of-Scope extraction
-- **Risk flags**: Severity-ranked with descriptions and remediation guidance
-- **Missing clause detection**: Force Majeure, Cyber Insurance, DR/BCP, Audit Rights, Security Incident Notification, Exit Management, IP Ownership
-- **Compliance tasks**: Auto-generated with owner, due date, recurrence
-- **Executive summary**: Board-level summary with contract snapshot, SLA commitments, exit readiness, recommended actions
-- **Policy conflict detection**: Cross-contract clause conflicts with governing clause identification
-- **AI clause recommendations**: Per-clause AI suggestions for improvement with one-click apply
-
-#### 5. Document Management
-- **Contract list**: Sortable by risk level, end date, or upload date
-- **Search**: Filter by name, company, or vendor
-- **Risk indicators**: Critical/high badges on list view
-- **Dashboard**: Risk summary stats, contracts needing attention, recently uploaded
-
-#### 6. Additional Features
-- **Legal Q&A chatbot**: RAG-powered contract Q&A grounded in your documents
-- **Renewal diff**: Compare old vs. new contract versions side by side
-- **Policy management**: Upload and manage company policies
-- **Vector search**: Semantic search across all contracts (ChromaDB)
-- **Real-time progress**: WebSocket-powered upload progress with stage tracking
-- **Dark/light mode**: System-aware with manual toggle
-- **Role-based access**: JWT authentication (dev and legal roles)
+### 📤 Export Options
+| Format | Contents |
+|--------|----------|
+| PDF | Full report — metadata, SLA summary, risk heatmap, compliance tasks |
+| CSV | All structured fields in spreadsheet format |
+| JSON | Complete contract data for system integrations |
+| Clipboard | One-click summary copy |
 
 ---
 
-### Architecture
+## 🏗️ Architecture
 
 ```
-contract-enhanced/
+┌─────────────────────────────────────────────────────┐
+│                    Frontend (Next.js)                │
+│  Dashboard │ Contract View │ Chat │ Renewals │ Upload │
+└────────────────────────┬────────────────────────────┘
+                         │ REST API + WebSocket
+┌────────────────────────▼────────────────────────────┐
+│                  Backend (FastAPI)                   │
+│                                                      │
+│  ┌──────────────────────────────────────────────┐   │
+│  │              AI Agent Pipeline               │   │
+│  │  Parser → Clause Extractor → Summarizer      │   │
+│  │  → Executive Summary → Recommender → QA      │   │
+│  └──────────────────────────────────────────────┘   │
+│                                                      │
+│  ┌───────────┐  ┌─────────────┐  ┌──────────────┐  │
+│  │  SQLite   │  │  ChromaDB   │  │  LLM Client  │  │
+│  │  Storage  │  │Vector Store │  │  (GenAI API) │  │
+│  └───────────┘  └─────────────┘  └──────────────┘  │
+└─────────────────────────────────────────────────────┘
+```
+
+---
+
+## 📁 Project Structure
+
+```
+contract-clause-summarizer/
 ├── backend/
 │   ├── agents/
-│   │   ├── clause_extractor.py
-│   │   ├── executive_summary_agent.py  ← heuristic fallback returns object fields
+│   │   ├── clause_extractor.py       # 17-clause extraction with risk ratings
+│   │   ├── executive_summary_agent.py # Board-level summary generation
 │   │   ├── summarizer_agent.py
-│   │   ├── security_agent.py
+│   │   ├── qa_agent.py               # RAG-powered Q&A
 │   │   ├── policy_conflict_agent.py
 │   │   ├── recommender_agent.py
-│   │   ├── qa_agent.py
-│   │   ├── renewal_diff_agent.py
-│   │   └── parser_agent.py
+│   │   └── renewal_diff_agent.py
 │   ├── api/
 │   │   ├── contracts.py
 │   │   ├── auth.py
-│   │   ├── policies.py
-│   │   ├── renewals.py
 │   │   ├── chat.py
-│   │   ├── clauses.py
-│   │   ├── rag.py
-│   │   └── ws.py
-│   ├── services/
-│   │   ├── doc_export.py
-│   │   ├── llm_client.py
-│   │   ├── vector_store.py
-│   │   ├── storage.py
-│   │   ├── ws_manager.py
-│   │   └── seed.py
-│   └── utils/
-│       ├── prompts.py
-│       ├── heuristics.py
-│       ├── chunker.py
-│       ├── pdf_extract.py
-│       └── docx_extract.py
+│   │   └── ws.py                     # WebSocket for real-time progress
+│   └── services/
+│       ├── llm_client.py
+│       ├── vector_store.py           # ChromaDB integration
+│       └── doc_export.py             # PDF/CSV/JSON export
 ├── frontend/
-│   └── src/
-│       ├── app/
-│       │   ├── dashboard/page.tsx
-│       │   ├── contracts/page.tsx
-│       │   ├── contracts/[id]/page.tsx  ★ FIXED — formatEsValue + formatRecommendedAction
-│       │   ├── upload/page.tsx
-│       │   ├── renewals/page.tsx
-│       │   ├── policies/page.tsx
-│       │   ├── chat/page.tsx
-│       │   ├── layout.tsx
-│       │   └── globals.css
-│       ├── components/
-│       │   ├── Navbar.tsx
-│       │   ├── ClientShell.tsx
-│       │   ├── StreamingPanel.tsx
-│       │   ├── FileDrop.tsx
-│       │   ├── RiskBadge.tsx
-│       │   └── ClarityMeter.tsx
-│       └── lib/
-│           ├── api.ts
-│           ├── authStore.ts
-│           ├── theme.ts
-│           └── ws.ts
+│   └── src/app/
+│       ├── dashboard/
+│       ├── contracts/[id]/           # Contract detail + split view
+│       ├── upload/
+│       ├── chat/
+│       └── renewals/
 └── data/
     ├── contracts/
     ├── company_policies/
@@ -141,17 +106,17 @@ contract-enhanced/
 
 ---
 
-### Setup
+## 🚀 Getting Started
 
-**Backend**
+**Backend Setup**
 ```bash
 cd backend
 pip install -r requirements.txt
-cp .env .env.local   # Set GENAI_API_KEY to your API key
+cp .env .env.local   # Set GENAI_API_KEY
 uvicorn main:app --reload --port 8000
 ```
 
-**Frontend**
+**Frontend Setup**
 ```bash
 cd frontend
 npm install
@@ -160,22 +125,34 @@ npm run dev
 ```
 
 **Demo Login**
-- `dev@example.ai` / `developer123` (Developer role)
-- `legal@example.ai` / `legal123` (Legal role)
+```
+Developer role:  dev@example.ai   / developer123
+Legal role:      legal@example.ai / legal123
+```
 
 ---
 
-### Document Precedence
-When multiple documents are uploaded, conflicts are resolved by:
-1. Amendments / Addenda
-2. Change Requests
-3. SOW
-4. SLA
-5. MSA
+## 💡 Key Concepts Demonstrated
+
+- Full-stack AI application with Python (FastAPI) + TypeScript (Next.js)
+- RAG (Retrieval-Augmented Generation) pipeline with ChromaDB vector store
+- Multi-agent AI architecture — 9 specialized agents
+- Real-time WebSocket progress tracking
+- JWT-based role authentication (Dev vs Legal roles)
+- PDF/CSV/JSON export with rich formatting
+- NLP-based clause extraction and risk classification
 
 ---
 
-### Success Metrics
-- **Summary accuracy**: LLM-based extraction with confidence scores and heuristic fallback
-- **User satisfaction**: Editable summaries with one-click save; AI recommendations per clause
-- **Review time reduction**: Executive summary, risk heatmap, and compliance task list surface critical information instantly
+## 🔗 Tech Stack
+
+`Python` `FastAPI` `TypeScript` `Next.js` `ChromaDB` `SQLite` `GenAI API` `RAG` `NLP` `WebSocket` `JWT`
+
+---
+
+## 👩‍💻 Author
+
+**Akhila Kurre** — Data Engineer @ TCS
+
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=flat-square&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/akhila-kurre-75582a1bb/)
+[![GitHub](https://img.shields.io/badge/GitHub-akhila8978-181717?style=flat-square&logo=github)](https://github.com/akhila8978)
